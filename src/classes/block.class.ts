@@ -12,7 +12,7 @@ export class Block {
     this.hash = this.calculateHash();
   }
 
-  private calculateHash() {
+  calculateHash() {
     return SHA256(
       this.index +
         this.previousHash +
