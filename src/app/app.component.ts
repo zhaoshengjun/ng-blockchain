@@ -9,7 +9,9 @@ import { Component } from "@angular/core";
 export class AppComponent {
   title = "app";
   blockchain = "";
+  isChainValid: boolean = true;
   constructor(private cryptoSvc: CryptoService) {
     this.blockchain = JSON.stringify(this.cryptoSvc.cyptoChain);
+    this.isChainValid = this.cryptoSvc.cyptoChain.isChainValid();
   }
 }

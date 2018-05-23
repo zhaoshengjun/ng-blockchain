@@ -10,3 +10,12 @@
   </h2>
   <pre>{{blockchain}}</pre>
 </div>
+<div>
+  <h2>Blockchain State:</h2>
+  <div *ngIf="isChainValid; else invalidBlockchain">
+    Chain is in a
+    <b>valid</b> state.
+  </div>
+  <ng-template #invalidBlockchain>Chain is in an
+    <b>invalid</b>state.</ng-template>
+</div>
