@@ -1,5 +1,6 @@
 import { CryptoService } from "./services/crypto.service";
 import { Component } from "@angular/core";
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 
 @Component({
   selector: "app-root",
@@ -7,10 +8,15 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = "app";
+  walletAddressForm: FormGroup;
   blockchain = "";
   isChainValid: boolean = true;
-  constructor(private cryptoSvc: CryptoService) {
+  balance: number = 0;
+
+  constructor(private cryptoSvc: CryptoService, private fb: FormBuilder) {
+    this.walletAddressForm = this.fb.group({
+      walletAddress: ["", Validators.required]
+    });
     this.blockchain = JSON.stringify(this.cryptoSvc.cryptoChain);
     this.isChainValid = this.cryptoSvc.cryptoChain.isChainValid();
   }
