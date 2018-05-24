@@ -4,16 +4,18 @@ import { Block } from "./block.class";
 import { Transaction } from "./transaction.class";
 
 export class Blockchain {
-  chain: Block[];
+  chain: Block[] = [];
   difficulty: number = 3;
   miningReward: number = 50;
 
   constructor() {
-    this.chain = [this.createGenesisBlock()];
+    this.createGenesisBlock();
   }
 
   createGenesisBlock() {
-    return new Block(Date.now(), [], "0");
+    let txn = new Transaction(Date.now(), "mint", "genesis", 0);
+    let block = new Block(Date.now(), [txn], "0");
+    this.chain.push(block);
   }
 
   getLatestBlock() {
