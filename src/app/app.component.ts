@@ -20,4 +20,8 @@ export class AppComponent {
     this.blockchain = JSON.stringify(this.cryptoSvc.cryptoChain);
     this.isChainValid = this.cryptoSvc.cryptoChain.isChainValid();
   }
+
+  assignWalletAddress() {
+    console.log("called assignWalletAddress");
+  }
 }
