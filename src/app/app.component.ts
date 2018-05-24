@@ -11,7 +11,7 @@ export class AppComponent {
   blockchain = "";
   isChainValid: boolean = true;
   constructor(private cryptoSvc: CryptoService) {
-    this.blockchain = JSON.stringify(this.cryptoSvc.cyptoChain);
-    this.isChainValid = this.cryptoSvc.cyptoChain.isChainValid();
+    this.blockchain = JSON.stringify(this.cryptoSvc.cryptoChain);
+    this.isChainValid = this.cryptoSvc.cryptoChain.isChainValid();
   }
 }
