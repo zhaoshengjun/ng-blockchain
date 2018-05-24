@@ -44,13 +44,22 @@ export class Blockchain {
     minerAddr: string,
     transactions: Transaction[]
   ): Promise<any> {
+    // validate transactions first
+    let validatedTxns: Transaction[] = [];
+
+    for (const txn of transactions) {
+      if (txn.payerAddr === "mint" || this.validateTransaction(txn)) {
+        validatedTxns.push(txn);
+      }
+    }
+    console.log(`Validated transactions: ${validatedTxns.length}`);
     transactions.push(
       new Transaction(Date.now(), "mint", minerAddr, this.miningReward)
     );
     let promise = new Promise((resolve, reject) => {
       let block = new Block(
         Date.now(),
-        transactions,
+        validatedTxns,
         this.getLatestBlock().hash
       );
       block.mineBlock(this.difficulty).then(() => {
@@ -61,6 +70,16 @@ export class Blockchain {
     });
 
     return promise;
+  }
+
+  validateTransaction(txn) {
+    let { payerAddr } = txn;
+    let balance = this.getAddressBlance(payerAddr);
+    if (balance >= txn.amount) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getAddressBlance(addr: string) {
