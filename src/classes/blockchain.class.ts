@@ -43,6 +43,21 @@ export class Blockchain {
     return promise;
   }
 
+  getAddressBlance(addr: string) {
+    let balance = 0;
+    for (const block of this.chain) {
+      for (const txn of block.txns) {
+        if (txn.payerAddr === addr) {
+          balance -= txn.amount;
+        }
+        if (txn.payeeAddr === addr) {
+          balance += txn.amount;
+        }
+      }
+    }
+    return balance;
+  }
+
   isChainValid() {
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
