@@ -1,3 +1,4 @@
+import { Transaction } from "./../../classes/transaction.class";
 import { Injectable } from "@angular/core";
 import { Block } from "../../classes/block.class";
 import { Blockchain } from "../../classes/blockchain.class";
@@ -6,13 +7,31 @@ import { Blockchain } from "../../classes/blockchain.class";
   providedIn: "root"
 })
 export class CryptoService {
-  cyptoChain = new Blockchain();
+  cryptoChain = new Blockchain();
+  unminedTxns: Transaction[] = [];
 
   constructor() {
-    console.log("startig to mine a new block");
-    this.cyptoChain.addBlock(new Block(1, "22/05/2018", { amount: 10 }, ""));
-
-    console.log("startig to mine a new block");
-    this.cyptoChain.addBlock(new Block(2, "23/05/2018", { amount: 25 }, ""));
+    this.unminedTxns.push(
+      new Transaction(Date.now(), "Wallet-Alice", "Wallet-Bob", 50)
+    );
+    this.unminedTxns.push(
+      new Transaction(Date.now, "Wallet-Bob", "Wallet-Alice", 25)
+    );
+    console.log("Mining a block");
+    this.cryptoChain
+      .mineCurrentBlock("Wallet-Miner49r", this.unminedTxns)
+      .then(() => {
+        console.log(
+          `Balance: Alice: ${this.cryptoChain.getAddressBlance("Wallet-Alice")}`
+        );
+        console.log(
+          `Balance: Bob: ${this.cryptoChain.getAddressBlance("Wallet-Bob")}`
+        );
+        console.log(
+          `Balance: Miner49r: ${this.cryptoChain.getAddressBlance(
+            "Wallet-Miner49r"
+          )}`
+        );
+      });
   }
 }
