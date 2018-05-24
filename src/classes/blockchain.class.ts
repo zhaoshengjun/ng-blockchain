@@ -1,27 +1,46 @@
 import * as SHA256 from "crypto-js/sha256";
 
 import { Block } from "./block.class";
+import { Transaction } from "./transaction.class";
 
 export class Blockchain {
   chain: Block[];
   difficulty: number = 3;
+  miningReward: number = 50;
 
   constructor() {
     this.chain = [this.createGenesisBlock()];
   }
 
   createGenesisBlock() {
-    return new Block(0, "22/05/2018", "Genesis Block", "0");
+    return new Block(Date.now(), [], "0");
   }
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
 
-  addBlock(newBlock: Block) {
-    newBlock.previousHash = this.getLatestBlock().hash;
-    newBlock.mineBlock(this.difficulty);
-    this.chain.push(newBlock);
+  mineCurrentBlock(
+    minerAddr: string,
+    transactions: Transaction[]
+  ): Promise<any> {
+    transactions.push(
+      new Transaction(Date.now(), "mint", minerAddr, this.miningReward)
+    );
+    let promise = new Promise((resolve, reject) => {
+      let block = new Block(
+        Date.now(),
+        transactions,
+        this.getLatestBlock().hash
+      );
+      block.mineBlock(this.difficulty).then(() => {
+        console.log("Current block successfully minded.");
+        this.chain.push(block);
+        resolve();
+      });
+    });
+
+    return promise;
   }
 
   isChainValid() {
