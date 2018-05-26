@@ -32,3 +32,26 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+<div>
+  <mat-card class="mat-elevation-z8" style="flex:1; margin-top: 3vh; margin-bottom: 3vh;">
+    <mat-card-title>Send coins</mat-card-title>
+    <mat-card-subtitle>enter the receiver's wallet address</mat-card-subtitle>
+    <mat-card-content>
+      <form [formGroup]="sendCoinsForm" autocomplete="off" novalidate>
+        <mat-form-field style="width:33%">
+          <input matInput placeholder="Receiver address" formControlName="receiverAddress" required>
+        </mat-form-field>
+        <mat-form-field style="width:33%">
+          <input matInput placeholder="Transaction amount" formControlName="transactionAmount" required>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="sendTransaction()">
+        <mat-icon aria-label="Send Transaction">file_upload</mat-icon> Send
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

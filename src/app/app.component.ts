@@ -3,6 +3,7 @@ import { Wallet } from "./../classes/wallet.class";
 import { CryptoService } from "./services/crypto.service";
 import { Component } from "@angular/core";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
+import { Transaction } from "../classes/transaction.class";
 
 @Component({
   selector: "app-root",
@@ -11,6 +12,7 @@ import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 })
 export class AppComponent {
   walletAddressForm: FormGroup;
+  sendCoinsForm: FormGroup;
   blockchain: Blockchain;
   isChainValid: boolean = true;
   balance: number = 0;
@@ -19,6 +21,10 @@ export class AppComponent {
   constructor(private cryptoSvc: CryptoService, private fb: FormBuilder) {
     this.walletAddressForm = this.fb.group({
       walletAddress: ["", Validators.required]
+    });
+    this.sendCoinsForm = this.fb.group({
+      receiverAddress: ["", Validators.required],
+      transactionAmount: ["", Validators.required]
     });
     this.blockchain = this.cryptoSvc.cryptoChain;
     this.isChainValid = this.cryptoSvc.cryptoChain.isChainValid();
@@ -32,5 +38,14 @@ export class AppComponent {
     console.log(`${this.wallet.address}`);
     this.balance = this.blockchain.getAddressBlance(this.wallet.address);
     console.log(`get current balance: ${this.balance}`);
+  }
+  sendTransaction() {
+    let txn: Transaction = new Transaction(
+      Date.now(),
+      this.wallet.address,
+      this.sendCoinsForm.value.receiverAddress,
+      this.sendCoinsForm.value.transactionAmount
+    );
+    this.blockchain.receiveTransaction(txn);
   }
 }

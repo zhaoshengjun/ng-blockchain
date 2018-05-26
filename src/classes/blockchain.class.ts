@@ -113,4 +113,9 @@ export class Blockchain {
 
     return true;
   }
+
+  receiveTransaction(txn: Transaction) {
+    console.log(`Txn received with amount: ${txn.amount} `);
+    this.mineCurrentBlock("Wallet-Miner49r", [txn]);
+  }
 }
