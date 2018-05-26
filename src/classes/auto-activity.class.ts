@@ -9,7 +9,7 @@ export class AutoActivity {
   constructor(public blockchain: Blockchain) {
     this.timeHanle = setInterval(() => {
       this.txnTrigger();
-    }, 20000);
+    }, 2000);
   }
 
   txnTrigger() {
@@ -46,7 +46,9 @@ export class AutoActivity {
     );
     this.blockchain.receiveTransaction(txn);
     console.log(
-      `Sending a random transaction with amount: ${this.currentCoinAmount}`
+      `Sending a random transaction with amount: ${
+        this.currentCoinAmount
+      } from ${this.currentPayerAddr} to ${this.currentPayeeAddr}`
     );
   }
 }
