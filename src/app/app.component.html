@@ -55,3 +55,31 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
+<div>
+  <mat-card class="mat-elevation-z8" style="flex:1; margin-top: 3vh; margin-bottom: 3vh;">
+    <mat-card-title>Smart contract</mat-card-title>
+    <mat-card-subtitle>Enter a payee, an amount to deposit and a maturity date</mat-card-subtitle>
+    <mat-card-content>
+      <form [formGroup]="cdForm" autocomplete="off" novalidate>
+        <mat-form-field style="width:33%">
+          <input matInput placeholder="Payee address" formControlName="payeeAddress" required>
+        </mat-form-field>
+        <mat-form-field style="width:33%">
+          <input matInput type="number" placeholder="Transaction amount" formControlName="contractAmount" required>
+        </mat-form-field>
+        <mat-form-field style="width:33%">
+          <input matInput [matDatepicker]="picker" placeholder="Maturity date" formControlName="maturityDate" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="createCDSmartContract()">
+        <mat-icon aria-label="Create CD Smart Contract">file_upload</mat-icon> Create
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
