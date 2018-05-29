@@ -28,7 +28,7 @@ export class Blockchain {
       trxns.push(txn);
     }
 
-    this.mineCurrentBlock("Wallet-Miner49r", trxns);
+    this.mineCurrentBlock("Wallet-Miner49r", trxns, false);
   }
 
   createGenesisBlock() {

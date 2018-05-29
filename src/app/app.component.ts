@@ -28,7 +28,7 @@ export class AppComponent {
       receiverAddress: ["", Validators.required],
       transactionAmount: ["", Validators.required]
     });
-    this.sendCoinsForm = this.fb.group({
+    this.cdForm = this.fb.group({
       payeeAddress: ["", Validators.required],
       contractAmount: ["", Validators.required],
       maturityDate: ["", Validators.required]
@@ -57,7 +57,7 @@ export class AppComponent {
   }
 
   createCDSmartContract() {
-    let cd: CD = new CD(
+    let cd = new CD(
       this.generateSmartContractAddress(),
       this.cdForm.value.contractAmount,
       this.wallet.address,
