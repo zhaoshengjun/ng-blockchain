@@ -2,6 +2,7 @@ import * as SHA256 from "crypto-js/sha256";
 
 import { Block } from "./block.class";
 import { Transaction } from "./transaction.class";
+import { BlockScrollStrategy } from "@angular/cdk/overlay";
 
 export class Blockchain {
   chain: Block[] = [];
@@ -133,5 +134,26 @@ export class Blockchain {
       this.receiveTransaction(payoutTxn);
       console.log(`Smart contract: CD matured, payed out: ${payoutTxn.amount}`);
     }
+  }
+
+  iterateSmartContracts() {
+    for (const block of this.chain) {
+      for (const txn of block.txns) {
+        if (txn.smartContract !== null && this.hasOpenContract(txn)) {
+          this.processCDSmartContract(txn);
+        }
+      }
+    }
+  }
+
+  hasOpenContract(txnToCheck: Transaction): boolean {
+    for (const block of this.chain) {
+      for (const txn of block.txns) {
+        if (txn.payerAddr === txnToCheck.smartContract.contractAddress) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
