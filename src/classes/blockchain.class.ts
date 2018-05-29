@@ -118,4 +118,20 @@ export class Blockchain {
     console.log(`Txn received with amount: ${txn.amount} `);
     this.mineCurrentBlock("Wallet-Miner49r", [txn]);
   }
+
+  // Smart Contracts
+  processCDSmartContract(txn: Transaction) {
+    let now = new Date();
+    let maturityDate: number = txn.smartContract.maturityDate.getTime();
+    if (now.getTime() >= maturityDate) {
+      let payoutTxn = new Transaction(
+        Date.now(),
+        txn.smartContract.contractAddress,
+        txn.smartContract.payeeAddress,
+        txn.smartContract.contractAmount
+      );
+      this.receiveTransaction(payoutTxn);
+      console.log(`Smart contract: CD matured, payed out: ${payoutTxn.amount}`);
+    }
+  }
 }
