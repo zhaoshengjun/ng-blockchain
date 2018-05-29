@@ -43,8 +43,14 @@ export class Blockchain {
 
   mineCurrentBlock(
     minerAddr: string,
-    transactions: Transaction[]
+    transactions: Transaction[],
+    processSmartContracts: boolean
   ): Promise<any> {
+    // Smart contracts
+    if (processSmartContracts) {
+      this.iterateSmartContracts();
+    }
+
     // validate transactions first
     let validatedTxns: Transaction[] = [];
 
@@ -115,9 +121,9 @@ export class Blockchain {
     return true;
   }
 
-  receiveTransaction(txn: Transaction) {
+  receiveTransaction(txn: Transaction, processSmartContracts: boolean) {
     console.log(`Txn received with amount: ${txn.amount} `);
-    this.mineCurrentBlock("Wallet-Miner49r", [txn]);
+    this.mineCurrentBlock("Wallet-Miner49r", [txn], processSmartContracts);
   }
 
   // Smart Contracts
@@ -131,7 +137,7 @@ export class Blockchain {
         txn.smartContract.payeeAddress,
         txn.smartContract.contractAmount
       );
-      this.receiveTransaction(payoutTxn);
+      this.receiveTransaction(payoutTxn, false);
       console.log(`Smart contract: CD matured, payed out: ${payoutTxn.amount}`);
     }
   }
